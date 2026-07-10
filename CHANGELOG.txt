@@ -1,0 +1,15 @@
+BURGICO PREMIUM POLISH V3
+
+Implemented:
+- Fixed hero headline wrapping using explicit non-breaking line wrappers
+- Responsive hero typography for desktop, tablet and mobile
+- Premium glass Back To Top button
+- GSAP fade/scale appearance after 500px
+- Smooth Lenis scroll-to-top integration
+- Mobile-safe placement above bottom action buttons
+- Ripple, hover and press interactions
+- Smoother navbar shrink, blur, logo and CTA scaling
+- Better keyboard focus states
+- requestAnimationFrame-throttled scroll UI updates
+- Reduced-motion support
+- Existing sections, colours, typography and animation system preserved
