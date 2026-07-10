@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f14a19">
+  <meta name="description" content="Burgico at Food Embassy, Gowlidoddy. Fresh burgers, club sandwiches, fried chicken, rolls, Kerala Special Avil Milk and Falooda.">
+  <title>Burgico — Bite Into Better</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/split-type"></script>
+
+  <style>
+    :root{
+      --orange:#f14a19;--orange-2:#ff6b35;--cream:#fff1dd;--yellow:#ffd957;
+      --ink:#160f0b;--dark:#100b08;--brown:#4a1c0c;--muted:#aa8f83;
+      --line:rgba(255,255,255,.14);--max:1260px;--radius:32px;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;background:var(--dark);color:#fff;font-family:"DM Sans",sans-serif;overflow-x:hidden}
+    body.loading{overflow:hidden}a{text-decoration:none;color:inherit}img{display:block;width:100%}button{font:inherit}
+    .noise{position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .wrap{width:min(calc(100% - 42px),var(--max));margin:auto}
+
+    /* Loader */
+    .loader{position:fixed;inset:0;z-index:1000;background:#f14a19;display:grid;place-items:center;overflow:hidden}
+    .loader-inner{width:min(420px,80vw);text-align:center}.loader-title{font:900 clamp(42px,9vw,92px)/.9 "Archivo Black";letter-spacing:-.06em;text-transform:uppercase}
+    .loader-sub{margin-top:14px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#ffe7dc}
+    .burger-build{height:220px;position:relative;margin:20px auto 4px;width:260px}
+    .layer{position:absolute;left:50%;transform:translateX(-50%);opacity:0}
+    .bun-top{width:190px;height:65px;border-radius:100px 100px 18px 18px;background:#f5b34f;top:10px}
+    .lettuce{width:210px;height:18px;border-radius:50%;background:#63a82f;top:88px}
+    .cheese{width:180px;height:22px;background:#ffd957;top:105px;clip-path:polygon(0 0,100% 0,90% 100%,50% 65%,10% 100%)}
+    .patty{width:195px;height:30px;border-radius:18px;background:#5a1e0b;top:130px}
+    .bun-bottom{width:195px;height:42px;border-radius:16px 16px 70px 70px;background:#e89a37;top:166px}
+    .loader-logo{position:absolute;inset:0;display:grid;place-items:center;opacity:0}.loader-logo img{width:170px;border-radius:24px}
+
+    /* Cursor */
+    .cursor{position:fixed;left:0;top:0;z-index:998;width:22px;height:22px;border-radius:50%;background:var(--yellow);pointer-events:none;mix-blend-mode:difference;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s}
+    .cursor span{display:none;font:800 8px/1 "DM Sans";color:#111;letter-spacing:.08em}
+    .cursor.active{width:72px;height:72px;mix-blend-mode:normal;display:grid;place-items:center}.cursor.active span{display:block}
+
+    /* Header */
+    header{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:100;width:min(calc(100% - 24px),var(--max));height:74px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border:1px solid transparent;border-radius:22px;transition:.3s}
+    header.scrolled{height:64px;background:rgba(16,11,8,.82);border-color:var(--line);backdrop-filter:blur(18px);box-shadow:0 20px 50px rgba(0,0,0,.32)}
+    .brand{display:flex;align-items:center;gap:12px}.brand img{width:50px;height:50px;object-fit:cover;border-radius:15px}.brand b{font-size:16px;letter-spacing:.14em}.brand small{display:block;color:#a68e81;font-size:10px;margin-top:4px}
+    nav{display:flex;align-items:center;gap:26px}nav a{font-size:13px;font-weight:700;color:#eadbd4}nav a:hover{color:var(--yellow)}
+    .nav-order{padding:14px 18px;border-radius:999px;background:#fff;color:var(--ink)!important}
+    .menu-btn{display:none;width:46px;height:46px;border:0;border-radius:14px;background:#fff;position:relative}.menu-btn span{position:absolute;left:13px;width:20px;height:2px;background:#111}.menu-btn span:first-child{top:19px}.menu-btn span:last-child{top:26px}
+
+    /* Progress */
+    .progress{position:fixed;right:14px;top:50%;z-index:90;transform:translateY(-50%);width:8px;height:180px;border:1px solid rgba(255,255,255,.22);border-radius:999px;overflow:hidden}
+    .progress-fill{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(var(--yellow),var(--orange))}
+
+    /* Hero */
+    .hero{min-height:100svh;padding:138px 0 90px;display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center;position:relative}
+    .hero::before{content:"";position:absolute;width:580px;height:580px;border-radius:50%;background:radial-gradient(circle,rgba(241,74,25,.24),transparent 67%);right:-120px;top:80px;filter:blur(10px)}
+    .kicker{display:flex;align-items:center;gap:10px;color:#d7b8aa;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.kicker::before{content:"";width:26px;height:2px;background:var(--yellow)}
+    h1,h2,h3{font-family:"Archivo Black",sans-serif;text-transform:uppercase;letter-spacing:-.06em;margin:0}
+    .hero h1{font-size:clamp(64px,8.8vw,132px);line-height:.82;margin-top:22px}.hero h1 .accent{display:block;color:var(--yellow)}
+    .hero p{max-width:600px;color:#c4aba0;font-size:17px;line-height:1.72;margin:28px 0 0}
+    .actions{display:flex;gap:12px;margin-top:34px}.btn{min-height:56px;padding:0 23px;display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:999px;font-size:14px;font-weight:800;transition:.25s}.btn:hover{transform:translateY(-3px)}.primary{background:var(--orange)}.outline{border:1px solid var(--line)}
+    .meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-top:24px;margin-top:44px;border-top:1px solid var(--line)}.meta-row b{display:block;font-size:13px}.meta-row span{display:block;color:#887166;font-size:11px;margin-top:5px}
+    .hero-stage{min-height:650px;position:relative;display:grid;place-items:center;perspective:1200px}
+    .hero-card{width:min(100%,640px);height:620px;position:relative;border-radius:42px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 35px 100px rgba(0,0,0,.44);transform-style:preserve-3d}
+    .hero-card>img{height:100%;object-fit:cover;transform:scale(1.08)}.hero-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(25,6,0,.96),transparent 60%)}
+    .hero-copy{position:absolute;left:32px;right:32px;bottom:30px;z-index:2}.hero-tag{display:inline-flex;padding:9px 12px;border-radius:999px;background:var(--yellow);color:#24110a;font-size:11px;font-weight:900}.hero-copy h3{font-size:clamp(48px,6vw,80px);line-height:.84;margin:18px 0 24px}
+    .price-row{padding-top:18px;border-top:1px solid rgba(255,255,255,.28);display:flex;justify-content:space-between;align-items:end}.price-row strong{font-size:30px}
+    .float-card{position:absolute;z-index:4;padding:15px 17px;min-width:220px;border-radius:19px;background:rgba(255,248,239,.95);color:#21100a;box-shadow:0 22px 60px rgba(0,0,0,.3);backdrop-filter:blur(12px)}.float-card small{display:block;color:#826659}.float-card b{display:block;margin-top:5px}.fc1{right:-2%;top:12%}.fc2{left:-7%;bottom:12%}
+    .orbit{position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}.o1{width:420px;height:420px}.o2{width:620px;height:620px}
+    .scroll-hint{position:absolute;bottom:20px;left:0;color:#836e65;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+
+    .marquee{overflow:hidden;background:var(--yellow);color:#21100a;padding:18px 0;transform:rotate(-1deg) scale(1.02)}.track{display:flex;width:max-content;animation:marquee 22s linear infinite}.track span{white-space:nowrap;font:900 17px/1 "Archivo Black";padding-right:16px}
+
+    section{padding:135px 0}.section-head{display:grid;grid-template-columns:1fr 350px;gap:50px;align-items:end;margin-bottom:58px}.section-head h2{font-size:clamp(52px,7vw,96px);line-height:.86}.section-head h2 span{color:var(--orange-2)}.section-head p{color:#aa9084;line-height:1.7}
+
+    /* Sticky product storytelling */
+    .story-scroll{position:relative;height:340vh;background:#190d08}
+    .story-sticky{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:center}
+    .story-visual{height:100%;position:relative;overflow:hidden}.story-product{position:absolute;inset:0;opacity:0;transform:scale(1.15)}.story-product.active{opacity:1}.story-product img{height:100%;object-fit:cover}.story-product::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,transparent 50%,#190d08 98%),linear-gradient(to top,rgba(20,5,0,.65),transparent 55%)}
+    .story-text{padding:70px}.story-step{position:absolute;right:max(24px,calc((100vw - var(--max))/2));width:min(520px,42vw);opacity:0;transform:translateY(60px)}.story-step:first-child{opacity:1;transform:none}.story-step .number{color:var(--orange);font-weight:900}.story-step h3{font-size:clamp(48px,6vw,84px);line-height:.86;margin:16px 0}.story-step p{color:#b99e92;line-height:1.7;font-size:16px}.story-step .price{font-size:30px;font-weight:900;color:var(--yellow);margin-top:20px}
+
+    /* Menu */
+    .menu-section{background:var(--cream);color:var(--ink)}
+    .menu-section .kicker{color:#7d5e50}.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px}.filter{padding:12px 16px;border:1px solid rgba(0,0,0,.15);border-radius:999px;background:transparent;font-weight:800;cursor:pointer;transition:.2s}.filter.active,.filter:hover{background:var(--ink);color:#fff}
+    .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.menu-card{position:relative;overflow:hidden;background:#fff;border-radius:26px;padding:22px;border:1px solid rgba(0,0,0,.07);min-height:230px;display:flex;flex-direction:column;transition:.28s;transform-style:preserve-3d}.menu-card::before{content:"";position:absolute;inset:-1px;background:radial-gradient(240px circle at var(--x,50%) var(--y,50%),rgba(241,74,25,.16),transparent 45%);opacity:0;transition:.25s}.menu-card:hover::before{opacity:1}.menu-card:hover{transform:translateY(-8px) rotateX(2deg);box-shadow:0 28px 70px rgba(80,30,8,.14)}
+    .menu-top,.menu-bottom{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:10px}.type{padding:7px 9px;border-radius:999px;background:#f5ede7;font-size:10px;font-weight:900}.veg{color:#27883a}.nonveg{color:#d53225}.menu-card h3{position:relative;z-index:2;font:700 21px/1.15 "DM Sans";letter-spacing:-.02em;text-transform:none;margin:20px 0 8px}.menu-card p{position:relative;z-index:2;color:#7c675d;font-size:13px;line-height:1.55;margin:0}.menu-bottom{margin-top:auto;padding-top:22px}.menu-bottom strong{font-size:24px}.order-mini{padding:11px 14px;background:var(--ink);color:#fff;border-radius:999px;font-size:11px;font-weight:800}
+
+    /* Horizontal gallery */
+    .gallery-wrap{overflow:hidden;background:var(--orange);padding:120px 0}.gallery-track{display:flex;gap:20px;width:max-content;padding-left:max(22px,calc((100vw - var(--max))/2))}.gallery-card{width:min(72vw,520px);height:560px;border-radius:30px;overflow:hidden;position:relative;flex:0 0 auto}.gallery-card img{height:100%;object-fit:cover;transition:.7s}.gallery-card:hover img{transform:scale(1.06)}.gallery-card span{position:absolute;left:20px;bottom:20px;padding:10px 13px;background:#fff;color:#111;border-radius:999px;font-size:11px;font-weight:900}
+
+    /* Falooda fill */
+    .falooda-section{background:#130b08;min-height:100svh;display:grid;place-items:center;overflow:hidden}
+    .falooda-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.falooda-copy h2{font-size:clamp(58px,8vw,112px);line-height:.84}.falooda-copy h2 span{color:#ff9ac7}.falooda-copy p{color:#b89e91;line-height:1.7;max-width:560px}
+    .glass-wrap{height:650px;display:grid;place-items:center;position:relative}.glass{width:260px;height:500px;border:12px solid rgba(255,255,255,.75);border-top-width:5px;border-radius:20px 20px 70px 70px;position:relative;overflow:hidden;box-shadow:inset 0 0 40px rgba(255,255,255,.14),0 30px 80px rgba(0,0,0,.35)}.fill{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(#ffd4e6,#ff78ad 55%,#c43b79)}.fill::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,#fff 0 5px,transparent 6px),radial-gradient(circle at 70% 45%,#ffe178 0 7px,transparent 8px),radial-gradient(circle at 45% 70%,#8a2c0e 0 6px,transparent 7px);background-size:55px 70px}.straw{position:absolute;width:18px;height:380px;background:#ff5c61;transform:rotate(10deg);top:40px;left:52%}.glass-label{position:absolute;bottom:20px;font:900 24px/1 "Archivo Black";color:#fff;text-shadow:0 3px 10px rgba(0,0,0,.35)}
+
+    /* Visit */
+    .visit-card{padding:68px;border-radius:40px;background:var(--yellow);color:var(--ink);display:grid;grid-template-columns:1.1fr .9fr;gap:55px}.visit-card h2{font-size:clamp(58px,7vw,100px);line-height:.84}.visit-card p{color:#5b4639;line-height:1.7}.details{display:grid;gap:11px}.detail{background:rgba(255,255,255,.74);padding:19px;border-radius:19px}.detail small{display:block;color:#7a6254;font-size:9px;letter-spacing:.1em;text-transform:uppercase}.detail b{display:block;margin-top:6px}.coming{display:inline-flex;padding:11px 14px;border-radius:999px;background:var(--ink);color:#fff;font-size:12px;font-weight:800}
+
+    footer{padding:68px 0 100px;border-top:1px solid var(--line)}.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:50px}.footer-grid img{width:220px}.footer-grid a,.footer-grid p{display:block;color:#9d8377;font-size:13px;line-height:1.7;margin:5px 0}
+    .mobile-order{display:none}
+
+    @keyframes marquee{to{transform:translateX(-50%)}}
+    @media(max-width:1050px){.hero{grid-template-columns:1fr}.hero-stage{min-height:680px}.story-sticky{grid-template-columns:1fr}.story-visual{position:absolute;inset:0}.story-step{right:24px;width:min(560px,80vw);background:rgba(25,13,8,.82);backdrop-filter:blur(14px);padding:28px;border-radius:26px}.menu-grid{grid-template-columns:repeat(2,1fr)}.falooda-grid,.visit-card{grid-template-columns:1fr}}
+    @media(max-width:780px){.cursor,.progress{display:none}.menu-btn{display:block}nav{position:fixed;right:-100%;top:0;width:min(86vw,420px);height:100svh;padding:110px 28px 30px;background:#1b0f0b;display:flex;flex-direction:column;align-items:stretch;transition:.35s}nav.open{right:0}nav a{padding:17px 0;border-bottom:1px solid var(--line);font-size:21px}.nav-order{margin-top:auto;text-align:center}.section-head{grid-template-columns:1fr}.story-scroll{height:320vh}.story-step{left:18px;right:18px;width:auto;bottom:30px}.gallery-card{width:78vw;height:470px}.footer-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:580px){body{padding-bottom:74px}.wrap{width:min(calc(100% - 28px),var(--max))}.brand b,.brand small{display:none}.hero{padding-top:116px}.hero h1{font-size:clamp(58px,18vw,88px)}.actions{flex-direction:column}.btn{width:100%}.meta-row{grid-template-columns:1fr}.hero-stage{min-height:480px}.hero-card{height:460px;border-radius:28px}.hero-copy{left:20px;right:20px;bottom:20px}.hero-copy h3{font-size:44px}.float-card{min-width:185px;padding:11px}.fc1{right:-9%}.fc2{left:-9%}.section-head h2{font-size:50px}section{padding:94px 0}.menu-grid{grid-template-columns:1fr}.filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}.filter{white-space:nowrap}.gallery-wrap{padding:90px 0}.gallery-card{width:82vw;height:430px}.falooda-grid{gap:20px}.falooda-copy h2{font-size:58px}.glass-wrap{height:560px}.glass{width:220px;height:430px}.visit-card{padding:40px 24px}.visit-card h2{font-size:52px}.footer-grid{grid-template-columns:1fr}.mobile-order{position:fixed;z-index:110;left:10px;right:10px;bottom:10px;height:56px;border-radius:18px;background:var(--yellow);color:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-weight:900;box-shadow:0 20px 50px rgba(0,0,0,.35)}}
+    @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}.loader{display:none}.story-product,.story-step{opacity:1!important;transform:none!important}}
+  </style>
+</head>
+<body class="loading">
+<div class="noise"></div>
+<div class="cursor"><span>VIEW</span></div>
+<div class="progress"><div class="progress-fill"></div></div>
+
+<div class="loader">
+  <div class="loader-inner">
+    <div class="burger-build">
+      <div class="layer bun-top"></div><div class="layer lettuce"></div><div class="layer cheese"></div><div class="layer patty"></div><div class="layer bun-bottom"></div>
+      <div class="loader-logo"><img src="assets/burgico-icon.png" alt=""></div>
+    </div>
+    <div class="loader-title">Burgico</div>
+    <div class="loader-sub">Bite Into Better</div>
+  </div>
+</div>
+
+<header id="header">
+  <a class="brand" href="#home"><img src="assets/burgico-icon.png" alt="Burgico"><span><b>BURGICO</b><small>Bite Into Better</small></span></a>
+  <button class="menu-btn" id="menuBtn"><span></span><span></span></button>
+  <nav id="nav"><a href="#specials">Specials</a><a href="#menu">Menu</a><a href="#experience">Experience</a><a href="#visit">Visit</a><a class="nav-order magnetic" target="_blank" href="https://wa.me/919030008219?text=Hi%20Burgico%2C%20I%20would%20like%20to%20place%20an%20order.">Order now ↗</a></nav>
+</header>
+
+<main>
+<section class="hero wrap" id="home">
+  <div class="hero-left">
+    <div class="kicker hero-kicker">Freshly made in Gowlidoddy</div>
+    <h1 class="split-hero">Bite into <span class="accent">better.</span></h1>
+    <p class="hero-desc">Fresh in-house patty burgers, club sandwiches, fried chicken, rolls, Kerala Special Avil Milk and Burgico Special Falooda—with delicious veg and non-veg choices.</p>
+    <div class="actions hero-actions"><a class="btn primary magnetic" href="#menu">Explore the menu</a><a class="btn outline magnetic" target="_blank" href="https://wa.me/919030008219?text=Hi%20Burgico%2C%20I%20would%20like%20to%20place%20an%20order.">WhatsApp order ↗</a></div>
+    <div class="meta-row hero-meta"><div><b>Fresh ingredients</b><span>Made with care</span></div><div><b>Veg + Non-Veg</b><span>Options for everyone</span></div><div><b>Open late</b><span>12:30 PM – 12:30 AM</span></div></div>
+  </div>
+  <div class="hero-stage">
+    <div class="orbit o1"></div><div class="orbit o2"></div>
+    <div class="hero-card hover-view"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1400&q=88" alt="Burgico burger"><div class="hero-copy"><span class="hero-tag">Burgico bestseller</span><h3>Chicken Cheese Burger</h3><div class="price-row"><span>Freshly made</span><strong>₹169</strong></div></div></div>
+    <div class="float-card fc1"><small>Kerala special</small><b>Avil Milk · ₹169</b></div>
+    <div class="float-card fc2"><small>Signature dessert</small><b>Burgico Falooda · ₹259</b></div>
+  </div>
+  <span class="scroll-hint">Scroll to taste ↓</span>
+</section>
+
+<div class="marquee"><div class="track"><span>BURGERS ✦ CLUB SANDWICHES ✦ ROLLS ✦ FRIED CHICKEN ✦ FRIES ✦ AVIL MILK ✦ FALOODA ✦</span><span>BURGERS ✦ CLUB SANDWICHES ✦ ROLLS ✦ FRIED CHICKEN ✦ FRIES ✦ AVIL MILK ✦ FALOODA ✦</span></div></div>
+
+<section class="wrap" id="specials">
+  <div class="section-head"><div><div class="kicker">Burgico signatures</div><h2 class="reveal-title">Not just food. <span>A full craving.</span></h2></div><p>Scroll through Burgico's hero products as if each one were launching on a global stage.</p></div>
+</section>
+
+<section class="story-scroll" id="experience">
+  <div class="story-sticky">
+    <div class="story-visual">
+      <div class="story-product active"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1600&q=88" alt="Burger"></div>
+      <div class="story-product"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1600&q=88" alt="Club sandwich"></div>
+      <div class="story-product"><img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1600&q=88" alt="Fried chicken"></div>
+      <div class="story-product"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=1600&q=88" alt="Falooda"></div>
+    </div>
+    <div class="story-text">
+      <article class="story-step"><span class="number">01 / BURGERS</span><h3>Burgico King Burger</h3><p>Fresh in-house patty, bold sauces and the satisfying layers that make the first bite memorable.</p><div class="price">₹209</div></article>
+      <article class="story-step"><span class="number">02 / CLUB SANDWICHES</span><h3>Built in layers</h3><p>Veg, paneer, chicken and zinger options—grilled, stacked and made for proper hunger.</p><div class="price">From ₹109</div></article>
+      <article class="story-step"><span class="number">03 / FRIED CHICKEN</span><h3>Crunch worth hearing</h3><p>Golden fried chicken served in 2-piece, 4-piece and 8-piece portions.</p><div class="price">From ₹179</div></article>
+      <article class="story-step"><span class="number">04 / SIGNATURE DESSERT</span><h3>Burgico Falooda</h3><p>A colourful, chilled signature finish that deserves its own spotlight.</p><div class="price">₹259</div></article>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="menu">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">Complete menu</div><h2 class="reveal-title">Pick your <span>craving.</span></h2></div><p>Filter the menu, choose an item and send your order directly to Burgico through WhatsApp.</p></div>
+    <div class="filters" id="filters"></div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<section class="gallery-wrap">
+  <div class="wrap"><div class="section-head"><div><div class="kicker">Burgico energy</div><h2 class="reveal-title">See it. <span>Crave it.</span></h2></div><p>A cinematic moving wall of the flavours Burgico is built around.</p></div></div>
+  <div class="gallery-track">
+    <article class="gallery-card hover-view"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85" alt="Burger"><span>Fresh-patty burgers</span></article>
+    <article class="gallery-card hover-view"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85" alt="Sandwich"><span>Club sandwiches</span></article>
+    <article class="gallery-card hover-view"><img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85" alt="Fried chicken"><span>Fried chicken</span></article>
+    <article class="gallery-card hover-view"><img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1200&q=85" alt="Fries"><span>Loaded fries</span></article>
+    <article class="gallery-card hover-view"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=1200&q=85" alt="Dessert"><span>Signature desserts</span></article>
+  </div>
+</section>
+
+<section class="falooda-section">
+  <div class="wrap falooda-grid">
+    <div class="falooda-copy"><div class="kicker">A signature finish</div><h2 class="reveal-title">Burgico <span>Falooda.</span></h2><p>As you scroll, the glass fills—turning one of Burgico's signature menu items into a memorable brand moment.</p><div class="actions"><a class="btn primary magnetic" target="_blank" href="https://wa.me/919030008219?text=Hi%20Burgico%2C%20I%20want%20to%20order%20Burgico%20Special%20Falooda.">Order Falooda · ₹259</a></div></div>
+    <div class="glass-wrap"><div class="straw"></div><div class="glass"><div class="fill"></div><div class="glass-label">BURGICO</div></div></div>
+  </div>
+</section>
+
+<section class="wrap" id="visit">
+  <div class="visit-card">
+    <div><div class="kicker">Come hungry</div><h2 class="reveal-title">Your next favourite meal is waiting.</h2><p>Visit Burgico at Food Embassy, Gowlidoddy, or order through WhatsApp. Dine-in, takeaway and delivery are available.</p><div class="actions"><a class="btn primary magnetic" target="_blank" href="https://wa.me/919030008219?text=Hi%20Burgico%2C%20I%20would%20like%20to%20place%20an%20order.">Order on WhatsApp</a><a class="btn outline magnetic" target="_blank" href="https://maps.app.goo.gl/61fTRhW7JynHGxHF8?g_st=iw">Get directions ↗</a></div></div>
+    <div class="details"><div class="detail"><small>Address</small><b>Food Embassy, Gowlidoddy</b></div><div class="detail"><small>Opening hours</small><b>Daily · 12:30 PM – 12:30 AM</b></div><div class="detail"><small>Call / WhatsApp</small><b>9030008219</b></div><div class="detail"><small>Service options</small><b>Dine-in · Takeaway · Delivery</b></div><span class="coming">Swiggy & Zomato · Coming soon</span></div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap footer-grid"><div><img src="assets/burgico-logo.png" alt="Burgico logo"><p>Fresh burgers, club sandwiches, fried chicken, rolls and Kerala special desserts in Gowlidoddy.</p></div><div><h4>Explore</h4><a href="#specials">Specials</a><a href="#menu">Menu</a><a href="#experience">Experience</a><a href="#visit">Visit</a></div><div><h4>Contact</h4><a href="tel:+919030008219">9030008219</a><a target="_blank" href="https://wa.me/919030008219">WhatsApp</a><a target="_blank" href="https://maps.app.goo.gl/61fTRhW7JynHGxHF8?g_st=iw">Google Maps</a><p>Open daily 12:30 PM – 12:30 AM</p></div></div></footer>
+
+<a class="mobile-order" target="_blank" href="https://wa.me/919030008219?text=Hi%20Burgico%2C%20I%20would%20like%20to%20place%20an%20order."><span>Order on WhatsApp</span><b>↗</b></a>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const lenis = !prefersReduced ? new Lenis({duration:1.15,smoothWheel:true}) : null;
+if(lenis){lenis.on("scroll",ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0)}
+
+const items=[
+["Veg Burger",109,"Burgers","Veg"],["Paneer Burger",129,"Burgers","Veg"],["Veg Cheese Burger",129,"Burgers","Veg"],["Chicken Burger",149,"Burgers","Non-Veg"],["Chicken Cheese Burger",169,"Burgers","Non-Veg"],["Zinger Burger",179,"Burgers","Non-Veg"],["Double Chicken Cheese Burger",189,"Burgers","Non-Veg"],["Burgico King Burger",209,"Burgers","Non-Veg"],
+["Veg Club Sandwich",109,"Club Sandwiches","Veg"],["Paneer Club Sandwich",139,"Club Sandwiches","Veg"],["Chicken Club Sandwich",159,"Club Sandwiches","Non-Veg"],["Zinger Club Sandwich",179,"Club Sandwiches","Non-Veg"],
+["Falafel Roll",109,"Rolls","Veg"],["Chicken Roll",139,"Rolls","Non-Veg"],["Burgico King Roll",169,"Rolls","Non-Veg"],
+["French Fries - Medium",99,"Fries","Veg"],["French Fries - Large",139,"Fries","Veg"],["Peri Peri French Fries",159,"Fries","Veg"],["Cheesy French Fries",169,"Fries","Veg"],["Cheesy Loaded Fries",199,"Fries","Non-Veg"],
+["2 Piece Fried Chicken",179,"Fried Chicken","Non-Veg"],["4 Piece Fried Chicken",339,"Fried Chicken","Non-Veg"],["8 Piece Fried Chicken",649,"Fried Chicken","Non-Veg"],
+["Kerala Special Avil Milk",169,"Desserts & Beverages","Veg"],["Burgico Special Falooda",259,"Desserts & Beverages","Veg"],
+["Combo 1 · Burger + Fries",249,"Combos","Non-Veg"],["Combo 2 · Fried Chicken + Fries",259,"Combos","Non-Veg"],["Combo 3 · Burger + Fried Chicken",319,"Combos","Non-Veg"],["Combo 4 · Burger + Avil Milk",319,"Combos","Non-Veg"],["Combo 5 · Burger + Falooda",409,"Combos","Non-Veg"]
+];
+const cats=["All","Burgers","Club Sandwiches","Rolls","Fries","Fried Chicken","Desserts & Beverages","Combos","Veg","Non-Veg"];
+const filters=document.getElementById("filters"),grid=document.getElementById("menuGrid");
+const wa=(n,p)=>"https://wa.me/919030008219?text="+encodeURIComponent(`Hi Burgico, I would like to order ${n} (₹${p}).`);
+function render(cat="All"){grid.innerHTML=items.filter(i=>cat==="All"||i[2]===cat||i[3]===cat).map(i=>`<article class="menu-card"><div class="menu-top"><span class="type ${i[3]==="Veg"?"veg":"nonveg"}">${i[3]}</span><span>${i[2]}</span></div><h3>${i[0]}</h3><p>Freshly prepared at Burgico. Ask us about availability and customisation.</p><div class="menu-bottom"><strong>₹${i[1]}</strong><a class="order-mini magnetic" target="_blank" href="${wa(i[0],i[1])}">Order ↗</a></div></article>`).join("");[...filters.children].forEach(b=>b.classList.toggle("active",b.dataset.cat===cat));setupCardGlow();setupMagnetic()}
+filters.innerHTML=cats.map((c,i)=>`<button class="filter ${i===0?"active":""}" data-cat="${c}">${c}</button>`).join("");filters.addEventListener("click",e=>{if(e.target.matches(".filter"))render(e.target.dataset.cat)});render();
+
+function setupCardGlow(){document.querySelectorAll(".menu-card").forEach(card=>card.addEventListener("pointermove",e=>{const r=card.getBoundingClientRect();card.style.setProperty("--x",`${e.clientX-r.left}px`);card.style.setProperty("--y",`${e.clientY-r.top}px`)}))}
+function setupMagnetic(){if(matchMedia("(pointer:coarse)").matches)return;document.querySelectorAll(".magnetic").forEach(el=>{el.onpointermove=e=>{const r=el.getBoundingClientRect();gsap.to(el,{x:(e.clientX-r.left-r.width/2)*.12,y:(e.clientY-r.top-r.height/2)*.15,duration:.25})};el.onpointerleave=()=>gsap.to(el,{x:0,y:0,duration:.45,ease:"elastic.out(1,.4)"})})}
+setupMagnetic();
+
+const header=document.getElementById("header"),nav=document.getElementById("nav"),menuBtn=document.getElementById("menuBtn");
+addEventListener("scroll",()=>header.classList.toggle("scrolled",scrollY>30),{passive:true});menuBtn.onclick=()=>nav.classList.toggle("open");nav.querySelectorAll("a").forEach(a=>a.onclick=()=>nav.classList.remove("open"));
+
+if(!prefersReduced){
+  // Loader
+  const load=gsap.timeline({onComplete:()=>{document.body.classList.remove("loading");gsap.set(".loader",{display:"none"});heroIntro()}});
+  load.to(".bun-bottom",{y:0,opacity:1,duration:.35}).to(".patty",{y:0,opacity:1,duration:.28}).to(".cheese",{y:0,opacity:1,duration:.25}).to(".lettuce",{y:0,opacity:1,duration:.22}).to(".bun-top",{y:0,opacity:1,duration:.35}).to(".burger-build .layer",{scale:.9,opacity:0,duration:.45,delay:.2}).to(".loader-logo",{opacity:1,scale:1,duration:.45},"<").to(".loader",{yPercent:-100,duration:.8,ease:"power4.inOut",delay:.45});
+  gsap.set(".layer",{y:-80});gsap.set(".loader-logo",{scale:.7});
+
+  function heroIntro(){
+    const split=new SplitType(".split-hero",{types:"chars"});
+    gsap.from(split.chars,{yPercent:110,opacity:0,rotate:6,stagger:.025,duration:.9,ease:"power4.out"});
+    gsap.from([".hero-kicker",".hero-desc",".hero-actions",".hero-meta"],{y:26,opacity:0,stagger:.12,duration:.8,delay:.25});
+    gsap.from(".hero-card",{scale:.86,rotateY:-8,opacity:0,duration:1.2,ease:"power3.out"});
+    gsap.from([".fc1",".fc2"],{y:40,opacity:0,stagger:.15,duration:.8,delay:.55});
+  }
+
+  // Cursor
+  const cursor=document.querySelector(".cursor");addEventListener("pointermove",e=>gsap.to(cursor,{x:e.clientX,y:e.clientY,duration:.15}));
+  document.querySelectorAll(".hover-view,a,button").forEach(el=>{el.addEventListener("mouseenter",()=>cursor.classList.add("active"));el.addEventListener("mouseleave",()=>cursor.classList.remove("active"))});
+
+  // Progress
+  gsap.to(".progress-fill",{height:"100%",ease:"none",scrollTrigger:{start:0,end:"max",scrub:true}});
+
+  // Hero parallax + tilt
+  gsap.to(".hero-card img",{yPercent:10,ease:"none",scrollTrigger:{trigger:".hero",start:"top top",end:"bottom top",scrub:true}});
+  const card=document.querySelector(".hero-card");card.addEventListener("pointermove",e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(card,{rotateY:x*7,rotateX:-y*7,duration:.4})});card.addEventListener("pointerleave",()=>gsap.to(card,{rotateY:0,rotateX:0,duration:.6}));
+
+  // Section headings
+  document.querySelectorAll(".reveal-title").forEach(t=>{const s=new SplitType(t,{types:"lines,words"});gsap.from(s.words,{yPercent:110,opacity:0,stagger:.035,duration:.9,ease:"power4.out",scrollTrigger:{trigger:t,start:"top 82%"}})});
+
+  // Sticky story
+  const products=gsap.utils.toArray(".story-product"),steps=gsap.utils.toArray(".story-step");
+  const tl=gsap.timeline({scrollTrigger:{trigger:".story-scroll",start:"top top",end:"bottom bottom",scrub:1}});
+  products.forEach((p,i)=>{if(i===0)return;tl.to(products[i-1],{opacity:0,scale:1.1,duration:1},i).to(p,{opacity:1,scale:1,duration:1},i).to(steps[i-1],{opacity:0,y:-60,duration:.7},i).to(steps[i],{opacity:1,y:0,duration:.7},i+.1)});
+
+  // Horizontal gallery
+  const track=document.querySelector(".gallery-track");gsap.to(track,{x:()=>-(track.scrollWidth-innerWidth+60),ease:"none",scrollTrigger:{trigger:".gallery-wrap",start:"top top",end:()=>"+="+track.scrollWidth,scrub:1,pin:true,anticipatePin:1,invalidateOnRefresh:true}});
+
+  // Falooda fill
+  gsap.to(".fill",{height:"94%",ease:"none",scrollTrigger:{trigger:".falooda-section",start:"top 70%",end:"bottom 35%",scrub:1}});
+  gsap.to(".straw",{rotate:16,y:-20,ease:"none",scrollTrigger:{trigger:".falooda-section",start:"top bottom",end:"bottom top",scrub:1}});
+
+  // Generic reveal
+  gsap.utils.toArray(".section-head p,.visit-card,.footer-grid").forEach(el=>gsap.from(el,{y:35,opacity:0,duration:.8,scrollTrigger:{trigger:el,start:"top 85%"}}));
+}else{
+  document.body.classList.remove("loading");document.querySelector(".loader").style.display="none";
+}
+</script>
+</body>
+</html>
