@@ -1,0 +1,12 @@
+BURGICO V4 FIXES
+
+1. Reduced unnecessary blank space before the product storytelling section.
+2. Replaced Veg and Non-Veg category pills with independent Swiggy/Zomato-style toggle switches.
+3. Increased menu introduction text contrast.
+4. Increased orange gallery section text contrast and changed the accent heading to yellow.
+5. Fixed the Burgico label inside the animated Falooda glass.
+6. Increased Google review section text contrast.
+7. Repositioned the lower floating hero popup so it no longer covers the burger title; hidden it on small mobile screens.
+8. Centered sticky product content and prevented the price from being clipped.
+9. Reduced excessive pinned horizontal gallery scroll distance.
+10. Preserved all existing sections, branding, ordering links and animation libraries.

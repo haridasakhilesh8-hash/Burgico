@@ -371,7 +371,332 @@
       }
     }
 
-  </style>
+  
+    /* =========================================================
+       V4 LAYOUT + READABILITY FIXES
+       ========================================================= */
+
+    /* 1. Remove unnecessary blank space between intro and pinned story */
+    #specials{
+      padding-bottom:42px;
+    }
+
+    #specials .section-head{
+      margin-bottom:0;
+    }
+
+    .story-scroll{
+      height:220vh;
+    }
+
+    /* Keep section introductions compact instead of leaving empty bands */
+    .menu-section,
+    .reviews-section{
+      padding-top:108px;
+      padding-bottom:108px;
+    }
+
+    .menu-section .section-head,
+    .reviews-section .section-head,
+    .gallery-wrap .section-head{
+      margin-bottom:38px;
+    }
+
+    /* 3, 4 and 6. Strong, accessible text contrast per background */
+    .menu-section .section-head p{
+      color:#5f4b42;
+      font-weight:500;
+    }
+
+    .menu-section .kicker{
+      color:#674b3f;
+    }
+
+    .gallery-wrap .kicker{
+      color:#fff4e7;
+    }
+
+    .gallery-wrap .kicker::before{
+      background:var(--yellow);
+    }
+
+    .gallery-wrap .section-head h2{
+      color:#fff;
+    }
+
+    .gallery-wrap .section-head h2 span{
+      color:var(--yellow);
+    }
+
+    .gallery-wrap .section-head p{
+      color:#fff0e8;
+      font-weight:600;
+    }
+
+    .reviews-section .kicker{
+      color:#6d5145;
+    }
+
+    .reviews-section .section-head p{
+      color:#654f44;
+      font-weight:500;
+    }
+
+    /* Menu filter toolbar */
+    .menu-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:22px;
+      margin-bottom:32px;
+    }
+
+    .category-filters{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      min-width:0;
+    }
+
+    /* 2. Swiggy/Zomato-style Veg and Non-Veg toggle controls */
+    .food-toggle-group{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:0 0 auto;
+    }
+
+    .food-toggle{
+      min-height:44px;
+      padding:7px 11px 7px 9px;
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      border:1px solid rgba(22,15,11,.16);
+      border-radius:14px;
+      background:#fffaf3;
+      color:#33251f;
+      cursor:pointer;
+      font-weight:800;
+      transition:background .22s ease,border-color .22s ease,box-shadow .22s ease,transform .22s ease;
+    }
+
+    .food-toggle:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 24px rgba(72,32,12,.09);
+    }
+
+    .food-toggle-track{
+      width:38px;
+      height:22px;
+      padding:3px;
+      display:flex;
+      align-items:center;
+      border-radius:999px;
+      background:#d8cec7;
+      transition:background .22s ease;
+    }
+
+    .food-toggle-knob{
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:#fff;
+      box-shadow:0 2px 6px rgba(0,0,0,.2);
+      transform:translateX(0);
+      transition:transform .22s cubic-bezier(.22,1,.36,1);
+    }
+
+    .food-toggle.active .food-toggle-knob{
+      transform:translateX(16px);
+    }
+
+    .food-toggle[data-type="Veg"].active{
+      border-color:rgba(39,136,58,.38);
+      background:#edf8ee;
+      color:#207633;
+    }
+
+    .food-toggle[data-type="Veg"].active .food-toggle-track{
+      background:#35a853;
+    }
+
+    .food-toggle[data-type="Non-Veg"].active{
+      border-color:rgba(213,50,37,.35);
+      background:#fff0ed;
+      color:#ba2d22;
+    }
+
+    .food-toggle[data-type="Non-Veg"].active .food-toggle-track{
+      background:#d53225;
+    }
+
+    /* 5. Falooda label: prevent clipped/broken text inside glass */
+    .glass-label{
+      left:50%;
+      bottom:22px;
+      width:calc(100% - 28px);
+      transform:translateX(-50%);
+      text-align:center;
+      font-size:clamp(17px,2vw,23px);
+      line-height:1;
+      letter-spacing:-.04em;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:clip;
+      z-index:4;
+    }
+
+    /* 7. Product floating cards must not cover the hero title */
+    .fc1{
+      right:-1%;
+      top:10%;
+    }
+
+    .fc2{
+      left:auto;
+      right:4%;
+      bottom:4%;
+      max-width:220px;
+    }
+
+    .hero-copy{
+      padding-right:8px;
+    }
+
+    /* 8. Story text and price must stay fully inside the viewport */
+    .story-step{
+      top:50%;
+      bottom:auto;
+      transform:translateY(calc(-50% + 55px));
+      max-height:calc(100svh - 170px);
+      overflow:visible;
+    }
+
+    .story-step:first-child{
+      transform:translateY(-50%);
+    }
+
+    .story-step h3{
+      font-size:clamp(44px,5.3vw,76px);
+      overflow-wrap:normal;
+      word-break:normal;
+    }
+
+    .story-step .price{
+      display:block;
+      margin-top:18px;
+      padding-bottom:6px;
+      line-height:1.1;
+      font-size:clamp(26px,3vw,38px);
+      white-space:nowrap;
+    }
+
+    .story-text{
+      min-height:100%;
+      position:relative;
+    }
+
+    /* Hide decorative cursor while over light sections to avoid blue/yellow dots */
+    .menu-section .cursor,
+    .reviews-section .cursor{
+      display:none;
+    }
+
+    @media(max-width:1050px){
+      .menu-toolbar{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .food-toggle-group{
+        width:100%;
+      }
+
+      .story-step{
+        top:auto;
+        bottom:24px;
+        transform:translateY(45px);
+        max-height:calc(100svh - 150px);
+        overflow:auto;
+      }
+
+      .story-step:first-child{
+        transform:none;
+      }
+
+      .fc2{
+        right:2%;
+        bottom:3%;
+      }
+    }
+
+    @media(max-width:780px){
+      #specials{
+        padding-bottom:28px;
+      }
+
+      .story-scroll{
+        height:210vh;
+      }
+
+      .category-filters{
+        width:100%;
+        flex-wrap:nowrap;
+        overflow-x:auto;
+        padding-bottom:6px;
+        scrollbar-width:none;
+      }
+
+      .category-filters::-webkit-scrollbar{
+        display:none;
+      }
+
+      .food-toggle-group{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+      }
+
+      .food-toggle{
+        justify-content:center;
+      }
+    }
+
+    @media(max-width:580px){
+      .menu-section,
+      .reviews-section{
+        padding-top:82px;
+        padding-bottom:82px;
+      }
+
+      .menu-toolbar{
+        margin-bottom:24px;
+      }
+
+      .fc1{
+        right:-5%;
+        top:5%;
+      }
+
+      .fc2{
+        display:none;
+      }
+
+      .story-step h3{
+        font-size:clamp(40px,12vw,58px);
+      }
+
+      .story-step .price{
+        font-size:28px;
+      }
+
+      .glass-label{
+        font-size:18px;
+        bottom:18px;
+      }
+    }
+
+</style>
 </head>
 <body class="loading">
 <div class="noise"></div>
@@ -440,7 +765,19 @@
 <section class="menu-section" id="menu">
   <div class="wrap">
     <div class="section-head"><div><div class="kicker">Complete menu</div><h2 class="reveal-title">Pick your <span>craving.</span></h2></div><p>Filter the menu, choose an item and send your order directly to Burgico through WhatsApp.</p></div>
-    <div class="filters" id="filters"></div>
+    <div class="menu-toolbar">
+      <div class="category-filters" id="filters"></div>
+      <div class="food-toggle-group" aria-label="Food preference filters">
+        <button class="food-toggle" id="vegToggle" data-type="Veg" type="button" aria-pressed="false">
+          <span class="food-toggle-track" aria-hidden="true"><span class="food-toggle-knob"></span></span>
+          <span>Veg</span>
+        </button>
+        <button class="food-toggle" id="nonVegToggle" data-type="Non-Veg" type="button" aria-pressed="false">
+          <span class="food-toggle-track" aria-hidden="true"><span class="food-toggle-knob"></span></span>
+          <span>Non-Veg</span>
+        </button>
+      </div>
+    </div>
     <div class="menu-grid" id="menuGrid"></div>
   </div>
 </section>
@@ -562,11 +899,69 @@ const items=[
 ["Kerala Special Avil Milk",169,"Desserts & Beverages","Veg"],["Burgico Special Falooda",259,"Desserts & Beverages","Veg"],
 ["Combo 1 · Burger + Fries",249,"Combos","Non-Veg"],["Combo 2 · Fried Chicken + Fries",259,"Combos","Non-Veg"],["Combo 3 · Burger + Fried Chicken",319,"Combos","Non-Veg"],["Combo 4 · Burger + Avil Milk",319,"Combos","Non-Veg"],["Combo 5 · Burger + Falooda",409,"Combos","Non-Veg"]
 ];
-const cats=["All","Burgers","Club Sandwiches","Rolls","Fries","Fried Chicken","Desserts & Beverages","Combos","Veg","Non-Veg"];
+const cats=["All","Burgers","Club Sandwiches","Rolls","Fries","Fried Chicken","Desserts & Beverages","Combos"];
 const filters=document.getElementById("filters"),grid=document.getElementById("menuGrid");
+const vegToggle=document.getElementById("vegToggle"),nonVegToggle=document.getElementById("nonVegToggle");
+let activeCategory="All";
+let activeFoodType=null;
+
 const wa=(n,p)=>"https://wa.me/919030008219?text="+encodeURIComponent(`Hi Burgico, I would like to order ${n} (₹${p}).`);
-function render(cat="All"){grid.innerHTML=items.filter(i=>cat==="All"||i[2]===cat||i[3]===cat).map(i=>`<article class="menu-card"><div class="menu-top"><span class="type ${i[3]==="Veg"?"veg":"nonveg"}">${i[3]}</span><span class="availability">Available</span></div><div class="badge-row">${bestsellers.has(i[0])?'<span class="item-badge">Bestseller</span>':''}<span class="item-badge">${i[2]}</span></div><h3>${i[0]}</h3><p>${itemDescriptions[i[0]]||"Freshly prepared at Burgico."}</p><div class="menu-bottom"><strong>₹${i[1]}</strong><a class="order-mini magnetic" target="_blank" href="${wa(i[0],i[1])}">Order ↗</a></div></article>`).join("");[...filters.children].forEach(b=>b.classList.toggle("active",b.dataset.cat===cat));setupCardGlow();setupMagnetic()}
-filters.innerHTML=cats.map((c,i)=>`<button class="filter ${i===0?"active":""}" data-cat="${c}">${c}</button>`).join("");filters.addEventListener("click",e=>{if(e.target.matches(".filter"))render(e.target.dataset.cat)});render();
+
+function syncFoodToggles(){
+  [vegToggle,nonVegToggle].forEach(button=>{
+    const selected=button.dataset.type===activeFoodType;
+    button.classList.toggle("active",selected);
+    button.setAttribute("aria-pressed",String(selected));
+  });
+}
+
+function render(){
+  const visibleItems=items.filter(item=>{
+    const categoryMatch=activeCategory==="All"||item[2]===activeCategory;
+    const typeMatch=!activeFoodType||item[3]===activeFoodType;
+    return categoryMatch&&typeMatch;
+  });
+
+  grid.innerHTML=visibleItems.map(i=>`<article class="menu-card">
+    <div class="menu-top">
+      <span class="type ${i[3]==="Veg"?"veg":"nonveg"}">${i[3]}</span>
+      <span class="availability">Available</span>
+    </div>
+    <div class="badge-row">
+      ${bestsellers.has(i[0])?'<span class="item-badge">Bestseller</span>':''}
+      <span class="item-badge">${i[2]}</span>
+    </div>
+    <h3>${i[0]}</h3>
+    <p>${itemDescriptions[i[0]]||"Freshly prepared at Burgico."}</p>
+    <div class="menu-bottom">
+      <strong>₹${i[1]}</strong>
+      <a class="order-mini magnetic" target="_blank" rel="noopener" href="${wa(i[0],i[1])}">Order ↗</a>
+    </div>
+  </article>`).join("");
+
+  [...filters.children].forEach(button=>button.classList.toggle("active",button.dataset.cat===activeCategory));
+  syncFoodToggles();
+  setupCardGlow();
+  setupMagnetic();
+}
+
+filters.innerHTML=cats.map((c,i)=>`<button class="filter ${i===0?"active":""}" data-cat="${c}" type="button">${c}</button>`).join("");
+
+filters.addEventListener("click",event=>{
+  const button=event.target.closest(".filter");
+  if(!button)return;
+  activeCategory=button.dataset.cat;
+  render();
+});
+
+[vegToggle,nonVegToggle].forEach(button=>{
+  button.addEventListener("click",()=>{
+    activeFoodType=activeFoodType===button.dataset.type?null:button.dataset.type;
+    render();
+  });
+});
+
+render();
 
 function setupCardGlow(){document.querySelectorAll(".menu-card").forEach(card=>card.addEventListener("pointermove",e=>{const r=card.getBoundingClientRect();card.style.setProperty("--x",`${e.clientX-r.left}px`);card.style.setProperty("--y",`${e.clientY-r.top}px`)}))}
 function setupMagnetic(){if(matchMedia("(pointer:coarse)").matches)return;document.querySelectorAll(".magnetic").forEach(el=>{el.onpointermove=e=>{const r=el.getBoundingClientRect();gsap.to(el,{x:(e.clientX-r.left-r.width/2)*.12,y:(e.clientY-r.top-r.height/2)*.15,duration:.25})};el.onpointerleave=()=>gsap.to(el,{x:0,y:0,duration:.45,ease:"elastic.out(1,.4)"})})}
@@ -716,10 +1111,10 @@ if(!prefersReduced && !loaderSeen){
   // Sticky story
   const products=gsap.utils.toArray(".story-product"),steps=gsap.utils.toArray(".story-step");
   const tl=gsap.timeline({scrollTrigger:{trigger:".story-scroll",start:"top top",end:"bottom bottom",scrub:1}});
-  products.forEach((p,i)=>{if(i===0)return;tl.to(products[i-1],{opacity:0,scale:1.1,duration:1},i).to(p,{opacity:1,scale:1,duration:1},i).to(steps[i-1],{opacity:0,y:-60,duration:.7},i).to(steps[i],{opacity:1,y:0,duration:.7},i+.1)});
+  products.forEach((p,i)=>{if(i===0)return;tl.to(products[i-1],{opacity:0,scale:1.1,duration:1},i).to(p,{opacity:1,scale:1,duration:1},i).to(steps[i-1],{opacity:0,y:-55,duration:.7},i).to(steps[i],{opacity:1,y:0,duration:.7},i+.1)});
 
   // Horizontal gallery
-  const track=document.querySelector(".gallery-track");gsap.to(track,{x:()=>-(track.scrollWidth-innerWidth+60),ease:"none",scrollTrigger:{trigger:".gallery-wrap",start:"top top",end:()=>"+="+track.scrollWidth,scrub:1,pin:true,anticipatePin:1,invalidateOnRefresh:true}});
+  const track=document.querySelector(".gallery-track");gsap.to(track,{x:()=>-(track.scrollWidth-innerWidth+60),ease:"none",scrollTrigger:{trigger:".gallery-wrap",start:"top top",end:()=>"+="+Math.max(track.scrollWidth-innerWidth,innerHeight*.75),scrub:1,pin:true,anticipatePin:1,invalidateOnRefresh:true}});
 
   // Falooda fill
   gsap.to(".fill",{height:"94%",ease:"none",scrollTrigger:{trigger:".falooda-section",start:"top 70%",end:"bottom 35%",scrub:1}});
